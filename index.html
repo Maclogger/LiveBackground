@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Wallpaper</title>
+    <style>
+        @font-face {
+            font-family: 'Digital';
+            src: url('fonts/cs_font.ttf') format('truetype');
+        }
+        body {
+            margin: 0;
+            background: url('Groot.png') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+            font-family: "Digital", monospace;
+        }
+        p {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            border: none;
+        }
+        #text_div {
+            position: absolute;
+            display: block;
+            top: 40%;
+            left: 24%;
+            font-size: 5rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+            animation: float 5s infinite alternate;
+        }
+        #time {
+            font-size: 5rem;
+            color: white;
+        }
+        #day {
+            font-size: 1.4rem;
+            color: white;
+        }
+        #date {
+            font-size: 2.0rem;
+            color: white;
+        }
+        .textik {
+            color: rgb(124, 239, 255);
+            text-shadow:
+                    0 0 1px rgba(74, 235, 250, 0.8),
+                    0 0 8px rgba(51, 234, 249, 0.4),
+                    0 0 17px rgba(51, 234, 249, 0.2);
+            }
+
+    </style>
+</head>
+<body>
+<div id="text_div">
+    <div id="time">
+        <p class="textik">22:34:18</p>
+    </div>
+    <div id="day">
+        <p class="textik">MON</p>
+    </div>
+    <div id="date">
+        <p class="textik">15.01.2024</p>
+    </div>
+</div>
+<script>
+    function getCurrentTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+    function updateTime() {
+        const current = updateCurrent();
+        const timeP = document.getElementById('time').children[0];
+        const dayP = document.getElementById('day').children[0];
+        const dateP = document.getElementById('date').children[0];
+        timeP.innerHTML = current.time;
+        dayP.innerHTML = current.day;
+        dateP.innerHTML = current.date;
+    }
+
+    function getCurrentDate() {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Mesiace sú indexované od 0
+        const year = now.getFullYear();
+        return `${day}.${month}.${year}`;
+    }
+
+    console.log(getCurrentDate());
+
+    function updateCurrent() {
+        const weekdays = ["nedela", "pondelok", "utorok", "streda", "štvrtok", "piatok", "sobota"]
+        return {
+            "time": getCurrentTime(),
+            "day": weekdays[new Date().getDay()],
+            "date": getCurrentDate()
+        };
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>
+</body>
+</html>
